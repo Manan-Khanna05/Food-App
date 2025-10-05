@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import '../../styles/auth-shared.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const FoodPartnerRegister = () => {
 
   const navigate = useNavigate();
+  const { loginFoodPartner } = useAuth();
   
   const handleSubmit = (e) => { 
     e.preventDefault();
@@ -28,6 +30,7 @@ const FoodPartnerRegister = () => {
     }, { withCredentials: true })
       .then(response => {
         console.log(response.data);
+        loginFoodPartner(response.data.foodPartner);
         navigate("/create-food"); // Redirect to create food page after successful registration
       })
       .catch(error => {

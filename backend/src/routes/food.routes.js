@@ -17,9 +17,8 @@ router.post('/',
     foodController.createFood)
 
 
-/* GET /api/food/ [protected] */
+/* GET /api/food/ [public] */
 router.get("/",
-    authMiddleware.authUserMiddleware,
     foodController.getFoodItems)
 
 
@@ -34,7 +33,7 @@ router.post('/save',
 )
 
 
-router.get('/save',
+router.get('/saved',
     authMiddleware.authUserMiddleware,
     foodController.getSaveFood
 )

@@ -2,10 +2,12 @@ import React from 'react';
 import '../../styles/auth-shared.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const UserLogin = () => {
 
   const navigate = useNavigate();
+  const { loginUser } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +21,7 @@ const UserLogin = () => {
     }, { withCredentials: true });
 
     console.log(response.data);
-
+    loginUser(response.data.user);
     navigate("/"); // Redirect to home after login
 
   };

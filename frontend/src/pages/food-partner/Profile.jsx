@@ -1,4 +1,4 @@
-import React, { useState, useEffect, use } from 'react'
+import React, { useState, useEffect } from 'react'
 import '../../styles/profile.css'
 import { useParams } from 'react-router-dom'
 import axios from 'axios'
@@ -35,11 +35,11 @@ const Profile = () => {
                 </div>
 
                 <div className="profile-stats" role="list" aria-label="Stats">
-                    <div className="profile-stat" role="listitem">
+                    <div key="total-meals" className="profile-stat" role="listitem">
                         <span className="profile-stat-label">total meals</span>
                         <span className="profile-stat-value">{profile?.totalMeals}</span>
                     </div>
-                    <div className="profile-stat" role="listitem">
+                    <div key="customers-served" className="profile-stat" role="listitem">
                         <span className="profile-stat-label">customer served</span>
                         <span className="profile-stat-value">{profile?.customersServed}</span>
                     </div>
@@ -49,8 +49,8 @@ const Profile = () => {
             <hr className="profile-sep" />
 
             <section className="profile-grid" aria-label="Videos">
-                {videos.map((v) => (
-                    <div key={v.id} className="profile-grid-item">
+                {videos.map((v, index) => (
+                    <div key={v._id || v.id || `video-${index}`} className="profile-grid-item">
                         {/* Placeholder tile; replace with <video> or <img> as needed */}
 
 

@@ -87,6 +87,39 @@ function logoutUser(req, res) {
     });
 }
 
+async function getUserMe(req, res) {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({
+            message: "No token provided"
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await userModel.findById(decoded.id);
+
+        if (!user) {
+            return res.status(401).json({
+                message: "User not found"
+            });
+        }
+
+        res.status(200).json({
+            user: {
+                _id: user._id,
+                email: user.email,
+                fullName: user.fullName
+            }
+        });
+    } catch (err) {
+        return res.status(401).json({
+            message: "Invalid token"
+        });
+    }
+}
+
 
 async function registerFoodPartner(req, res) {
 
@@ -178,11 +211,49 @@ function logoutFoodPartner(req, res) {
     });
 }
 
+async function getFoodPartnerMe(req, res) {
+    const token = req.cookies.token;
+
+    if (!token) {
+        return res.status(401).json({
+            message: "No token provided"
+        });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const foodPartner = await foodPartnerModel.findById(decoded.id);
+
+        if (!foodPartner) {
+            return res.status(401).json({
+                message: "Food partner not found"
+            });
+        }
+
+        res.status(200).json({
+            foodPartner: {
+                _id: foodPartner._id,
+                email: foodPartner.email,
+                name: foodPartner.name,
+                address: foodPartner.address,
+                contactName: foodPartner.contactName,
+                phone: foodPartner.phone
+            }
+        });
+    } catch (err) {
+        return res.status(401).json({
+            message: "Invalid token"
+        });
+    }
+}
+
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
+    getUserMe,
     registerFoodPartner,
     loginFoodPartner,
-    logoutFoodPartner
+    logoutFoodPartner,
+    getFoodPartnerMe
 }

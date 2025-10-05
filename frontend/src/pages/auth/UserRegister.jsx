@@ -3,10 +3,12 @@ import { Link } from 'react-router-dom';
 import '../../styles/auth-shared.css';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
 
 const UserRegister = () => {
 
     const navigate = useNavigate();
+    const { loginUser } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -27,7 +29,7 @@ const UserRegister = () => {
         })
 
         console.log(response.data);
-
+        loginUser(response.data.user);
         navigate("/")
 
     };
